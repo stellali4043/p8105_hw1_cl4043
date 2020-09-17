@@ -83,6 +83,6 @@ penguin_plot
 ```
 
 ```{r saving the plot}
-ggsave("penguin_plot.png")
+ggsave("penguin_plot.png", width = 4, height = 4)
 ```
 
