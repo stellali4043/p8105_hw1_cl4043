@@ -4,28 +4,85 @@ author: Stella Li
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+This is my solution to HW1.
+
+```{r}
+library(tidyverse)
 ```
 
-## GitHub Documents
+## Problem 1
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+Create a data frame with the specified elements. 
 
-## Including Code
-
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
+```{r create_df}
+prob1_df = 
+  tibble(
+    samp = rnorm(10),
+    samp_gt_0 = samp > 0,
+    char_vec = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+    factor_vec = factor(c("low", "low", "low", "mod", "mod", "mod", "mod", "high", "high", "high"))
+  )
 ```
 
-## Including Plots
+Take the mean of each variable in my data frame.
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r mean_pull_var}
+mean(pull(prob1_df, samp))
+mean(pull(prob1_df, samp_gt_0))
+mean(pull(prob1_df, char_vec))
+mean(pull(prob1_df, factor_vec))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+I can take the mean of numbers and logical but not character or factor. 
+
+```{r try_numeric}
+as.numeric(pull(prob1_df, samp))
+as.numeric(pull(prob1_df, samp_gt_0))
+as.numeric(pull(prob1_df, char_vec))
+as.numeric(pull(prob1_df, factor_vec))
+```
+
+as.numeric function tries to convert all objects into numeric values which do not work on character vectors, and will turn logical vectors into 0 and 1, and factor vectors into different numbers according to the level of factor.
+
+```{r}
+# convert the logical vector to numeric, and multiply the random sample by the result
+as.numeric(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
+
+# convert the logical vector to a factor, and multiply the random sample by the result
+as.factor(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
+
+# convert the logical vector to a factor and then convert the result to numeric, and multiply the random sample by the result
+as.numeric(as.factor(pull(prob1_df, samp_gt_0))) * pull(prob1_df, samp)
+```
+
+
+## Problem 2
+```{r load data}
+data("penguins", package = "palmerpenguins")
+```
+
+```{r size of dataset}
+ncol(penguins)
+nrow(penguins)
+```
+
+```{r mean flipper length}
+mean(penguins$flipper_length_mm, na.rm = TRUE)
+```
+
+* There are 8 variables in this dataset, including "species", "island", "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g", "sex", and "year". Important values include the length and the depth of the bill, the length of the flipper, the body mass, the species, and the sex of the penguins, the island and the year in which the data was collected, 
+* There are 8 columns and 344 rows in total.
+* The mean of the flipper length is 200.9152 mm.
+
+```{r plot}
+penguin_plot <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + 
+  geom_point(aes(color = species))
+
+penguin_plot
+```
+
+```{r saving the plot}
+ggsave("penguin_plot.png")
+```
+
