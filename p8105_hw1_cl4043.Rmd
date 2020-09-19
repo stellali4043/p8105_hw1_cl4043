@@ -62,24 +62,11 @@ as.numeric(as.factor(pull(prob1_df, samp_gt_0))) * pull(prob1_df, samp)
 data("penguins", package = "palmerpenguins")
 ```
 
-```{r }
-names(penguins)
-```
+* There are `r ncol(penguins)` variables in this dataset, including `r names(penguins)`. Important values of variables include mean, range, and factor level, such as the mean of bill_length_mm is `r round(mean(penguins$bill_length_mm, na.rm = TRUE), digits=2)`, the range of bill_length_mm is `r range(penguins$bill_length_mm, na.rm = TRUE)`, and the factor level of sex is `r levels(penguins$sex)`, etc.
 
-There are 8 variables in this dataset, including "species", "island", "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g", "sex", and "year". Important values include the length and the depth of the bill, the length of the flipper, the body mass, the species, and the sex of the penguins, the island and the year in which the data was collected.
+* The data set has `r ncol(penguins)` columns and `r nrow(penguins)` rows in total.
 
-```{r size of dataset}
-ncol(penguins)
-nrow(penguins)
-```
-
-There are 8 columns and 344 rows in total.
-
-```{r mean flipper length}
-mean(penguins$flipper_length_mm, na.rm = TRUE)
-```
-
-The mean of the flipper length is 200.9152 mm.
+* The mean of the flipper length is `r round(mean(penguins$flipper_length_mm, na.rm = TRUE), digits=2)` mm.
 
 
 ```{r plot}
